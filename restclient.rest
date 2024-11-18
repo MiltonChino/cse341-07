@@ -1,0 +1,98 @@
+//Development
+###
+GET http://localhost:3000/
+###
+GET http://localhost:3000/users/
+###
+GET http://localhost:3000/users/67342bfd1df36434ff5a5105
+###
+POST http://localhost:3000/users/ HTTP/1.1
+content-type: application/json
+
+{   "user":{
+    "firstName": "Luz",
+    "lastName": "Chino",
+    "email": "luzchino@byui.com",
+    "level": 1
+    }
+}  
+
+###
+GET http://localhost:3000/docs/
+###
+GET http://localhost:3000/docs/673893498e30e910030e4444 
+###
+POST http://localhost:3000/docs/ HTTP/1.1
+content-type: application/json
+
+{   "doc":{
+    "title": "Title 2",
+    "description": "Here is the description 2",
+    "sentBy": "Milton",
+    "updatedBy": "Helaman",
+    "source": "/src/img/doc3.pdf",
+    "approval": 0
+    }
+}  
+###
+GET http://localhost:3000/users/673971385fefd269d09642c4 
+###
+PUT http://localhost:3000/users/673971385fefd269d09642c4  HTTP/1.1
+content-type: application/json
+
+{   "user":{
+    "firstName": "Milton",
+    "lastName": "Chino",
+    "email": "mch@byui.com",
+    "level": 2
+    }
+}
+### DELETE user
+DELETE http://localhost:3000/users/673971385fefd269d09642c4 HTTP/1.1
+###
+PUT http://localhost:3000/docs/673893498e30e910030e4444 HTTP/1.1
+content-type: application/json
+
+{   "doc":{
+    "title": "Title",
+    "description": "description",
+    "sentBy": "Luz",
+    "updatedBy": "Helaman",
+    "source": "/src/img/doc4.pdf",
+    "approval": 1
+    }
+
+}  
+###
+GET http://localhost:3000/docs/673893498e30e910030e4444
+### DELETE doc
+DELETE http://localhost:3000/docs/673893498e30e910030e4444 HTTP/1.1
+
+
+
+// Production
+
+###
+https://cse341-05.onrender.com/
+
+###
+https://cse341-05.onrender.com/users/
+
+###
+https://cse341-05.onrender.com/users/6717120629810ddfa37595f2
+
+###
+POST https://cse341-05.onrender.com/users/ HTTP/1.1
+content-type: application/json
+
+{   "user":{
+    "firstName": "Helaman",
+    "lastName": "Chino",
+    "email": "helamchino@byui.com",
+    "level": "admin1"
+    }
+}
+
+### DELETE contact
+DELETE https://cse341-04.onrender.com/contacts/6717120629810ddfa37595f2 HTTP/1.1
+
