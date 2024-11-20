@@ -8,6 +8,7 @@ router.get("/", (req, res) => {
 });
 router.use("/users", require("./users"));
 router.use("/docs", require("./docs"));
+router.use("/oauth", require("./oauth"));
 
 router.use("/api-docs", swaggerUi.serve);
 router.get("/api-docs", swaggerUi.setup(swaggerDocument));
