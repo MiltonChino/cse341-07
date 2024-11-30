@@ -1,13 +1,19 @@
 const mongoose = require("mongoose");
 // const bodyParser = require("body-parser");
 const express = require("express");
-const passport = require("./config/passport-setup");
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const axios = require("axios");
 const connectDB = require("./connection/db");
-const User = require("../models/users");
+const User = require("./models/Users");
+const PORT = 3000 || process.env.PORT;
+
+const session = require("express-session");
+// const findOrCreate = require("mongoose-findorcreate");
 
 const app = express();
-const PORT = 3000 || process.env.PORT;
+
+app.use(passport.initialize());
 
 connectDB();
 
@@ -20,12 +26,13 @@ app.use("/", require("./routes"));
 passport.use(
   new GoogleStrategy(
     {
-      clientID: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: `${process.env.BASE_URL}/auth/google/callback`, // Ensure BASE_URL is defined in your .env file
     },
-    async function (accessToken, refreshToken, profile, done) {
-      let user = await User.findOrCreate(
+    function (accessToken, refreshToken, profile, done) {
+      console.log(profile);
+      let user = User.findOrCreate(
         { googleId: profile.id },
         function (error, user) {
           return done(error, user);
@@ -34,6 +41,8 @@ passport.use(
     }
   )
 );
+
+passport.use(User.createStrategy());
 
 // Serialize and deserialize user for session management
 passport.serializeUser((user, done) => {
@@ -52,7 +61,9 @@ passport.deserializeUser(async (id, done) => {
 // Session middleware configuration
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || "your-session-secret",
+    secret:
+      process.env.JWT_SECRET ||
+      "63094057af57b976d68cd2b58d6c93b2a3db9c6bb894173124f6289afa8f40ca6fd9aac18acb3771fa6995c9e75af271c111feb6d3f3f82c7bfa0d06f4045baf",
     resave: false,
     saveUninitialized: false,
     cookie: {
